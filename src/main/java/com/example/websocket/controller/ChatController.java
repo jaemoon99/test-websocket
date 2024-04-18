@@ -17,33 +17,39 @@ public class ChatController {
     private final RabbitTemplate rabbitTemplate;
 
     // 채팅방 입장
-    @MessageMapping("chat.enter.{roomId}")
+    @MessageMapping("enter.{roomId}")
     public void enter(
             @DestinationVariable(value = "roomId") String roomId,
             @Payload RequestMessage message) {
         message.setContent(message.getSender() + "님이 채팅방에 입장했습니다.");
-        rabbitTemplate.convertAndSend("chat.exchange", "enter.room." + roomId, message);
+        // 구독 URL = /exchange/chat.exchange/room.{roomId}
+        // 전송 URL = /app/enter.{roomId}
+        rabbitTemplate.convertAndSend("chat.exchange", "room." + roomId, message); // 도착지 = chat.exchange/room.{roomId}
         log.info("Enter RoomId = {}", roomId);
         log.info("Message = {}", message.getContent());
     }
 
     // 채팅방 대화
-    @MessageMapping("chat.talk.{roomId}")
+    @MessageMapping("talk.{roomId}")
     public void talk(
             @DestinationVariable(value = "roomId") String roomId,
             @Payload RequestMessage message) {
-        rabbitTemplate.convertAndSend("chat.exchange", "*.room." + roomId, message);
+        // 구독 URL = /exchange/chat.exchange/room.{roomId}
+        // 전송 URL = /app/talk.{roomId}
+        rabbitTemplate.convertAndSend("chat.exchange", "room." + roomId, message); // 도착지 = chat.exchange/room.{roomId}
         log.info("Chat RoomId = {}", roomId);
         log.info("Message = {}", message.getContent());
     }
 
     // 채팅방 퇴장
-    @MessageMapping("chat.exit.{roomId}")
+    @MessageMapping("exit.{roomId}")
     public void exit(
             @DestinationVariable(value = "roomId") String roomId,
             @Payload RequestMessage message) {
         message.setContent(message.getSender() + "님이 채팅방에서 퇴장했습니다.");
-        rabbitTemplate.convertAndSend("chat.exchange", "exit.room." + roomId, message);
+        // 구독 URL = /exchange/chat.exchange/room.{roomId}
+        // 전송 URL = /app/exit.{roomId}
+        rabbitTemplate.convertAndSend("chat.exchange", "room." + roomId, message); // 도착지 = chat.exchange/room.{roomId}
         log.info("Exit RoomId = {}", roomId);
         log.info("Message = {}", message.getContent());
     }

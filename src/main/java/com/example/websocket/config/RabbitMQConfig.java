@@ -16,20 +16,23 @@ import org.springframework.context.annotation.Configuration;
 @EnableRabbit
 public class RabbitMQConfig {
 
-    private static final String CHAT_QUEUE_NAME = "chat.queue";
-    private static final String CHAT_EXCHANGE_NAME = "chat.exchange";
-    private static final String ROUTING_KEY = "*.room.*";
+    private static final String CHAT_QUEUE_NAME = "chat.queue"; // Message Queue 이름
+    private static final String CHAT_EXCHANGE_NAME = "chat.exchange"; // Exchange 이름
+    private static final String ROUTING_KEY = "room.*"; // Routing Key
 
+    // Queue 등록
     @Bean
     public Queue queue() {
         return new Queue(CHAT_QUEUE_NAME, true);
     }
 
+    // Exchange 등록
     @Bean
     public TopicExchange exchange() {
         return new TopicExchange(CHAT_EXCHANGE_NAME);
     }
 
+    // Queue, Exchange, Routing Key 바인딩
     @Bean
     public Binding binding(Queue queue, TopicExchange exchange) {
         return BindingBuilder
@@ -38,6 +41,7 @@ public class RabbitMQConfig {
                 .with(ROUTING_KEY);
     }
 
+    // RabbitMQ와의 통신을 관리하는 클래스
     @Bean
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
@@ -45,6 +49,7 @@ public class RabbitMQConfig {
         return rabbitTemplate;
     }
 
+    // RabbitMQ와의 연결을 관리하는 클래스
     @Bean
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory factory = new CachingConnectionFactory();
@@ -54,6 +59,7 @@ public class RabbitMQConfig {
         return factory;
     }
 
+    // 메시지를 JSON형식으로 직렬&역직렬화하는데 사용되는 변환기
     @Bean
     public Jackson2JsonMessageConverter jacksonMessageConverter() {
         return new Jackson2JsonMessageConverter();

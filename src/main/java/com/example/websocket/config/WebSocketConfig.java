@@ -13,9 +13,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setPathMatcher(new AntPathMatcher("."));
-        registry.setApplicationDestinationPrefixes("/app"); // 컨트롤러를 통해 구독자들에게 전달
-        registry.enableStompBrokerRelay("/queue", "/topic", "/exchange", "/amq/queue");
+        registry.setPathMatcher(new AntPathMatcher(".")); // url의 "/"를 "."으로 변경
+        registry.setApplicationDestinationPrefixes("/app"); // 구독자들에게 전달 url
+        registry.enableStompBrokerRelay("/queue", "/topic", "/exchange", "/amq/queue"); // 구독 url
 //        registry.enableSimpleBroker("/topic"); // 바로 구독자들에게 전달
     }
 
