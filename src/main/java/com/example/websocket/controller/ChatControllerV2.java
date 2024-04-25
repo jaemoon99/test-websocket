@@ -21,26 +21,26 @@ public class ChatControllerV2 {
 
     // 채팅방 입장
     @MessageMapping("enter.v2.{roomId}")
-    public Chat enter(
+    public void enter(
             @DestinationVariable(value = "roomId") String roomId,
             @Payload EnterAndExitRequestDto request) {
-        return chatService.enterRoom(roomId, request);
+        chatService.enterRoom(roomId, request);
     }
 
     // 채팅방 대화
     @MessageMapping("talk.v2.{roomId}")
-    public Chat talk(
+    public void talk(
             @DestinationVariable(value = "roomId") String roomId,
             @Payload SendMessageRequestDto request) {
-        return chatService.sendMessage(roomId, request);
+        chatService.sendMessage(roomId, request);
     }
 
     // 채팅방 퇴장
     @MessageMapping("exit.v2.{roomId}")
-    public Chat exit(
+    public void exit(
             @DestinationVariable(value = "roomId") String roomId,
             @Payload EnterAndExitRequestDto request) {
-        return chatService.exitRoom(roomId, request);
+        chatService.exitRoom(roomId, request);
     }
 
     private final RabbitTemplate rabbitTemplate;
