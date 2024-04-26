@@ -28,7 +28,7 @@ public class ChatService {
 
         // 구독 URL = /exchange/chat.exchange/room.{roomId}
         // 전송 URL = /app/enter.v2.{roomId}
-        rabbitTemplate.convertAndSend("chat.exchange", "room." + roomId, chat); // 도착지 = chat.exchange/room.{roomId}
+        rabbitTemplate.convertAndSend("test.exchange", "room." + roomId, chat); // 도착지 = chat.exchange/room.{roomId}
         log.info("Enter RoomId = {}", roomId);
 
 //        return chatRepository.save(chat);
@@ -44,7 +44,7 @@ public class ChatService {
 
         // 구독 URL = /exchange/chat.exchange/room.{roomId}
         // 전송 URL = /app/talk.v2.{roomId}
-        rabbitTemplate.convertAndSend("chat.exchange", "room." + roomId, chat); // 도착지 = chat.exchange/room.{roomId}
+        rabbitTemplate.convertAndSend("test.exchange", "room." + roomId, chat); // 도착지 = chat.exchange/room.{roomId}
         log.info("Chat RoomId = {}", roomId);
 
 //        return chatRepository.save(chat);
@@ -60,7 +60,7 @@ public class ChatService {
 
         // 구독 URL = /exchange/chat.exchange/room.{roomId}
         // 전송 URL = /app/exit.v2.{roomId}
-        rabbitTemplate.convertAndSend("chat.exchange", "room." + roomId, chat); // 도착지 = chat.exchange/room.{roomId}
+        rabbitTemplate.convertAndSend("test.exchange", "room." + roomId, chat); // 도착지 = chat.exchange/room.{roomId}
         log.info("Exit RoomId = {}", roomId);
 
 //        return chatRepository.save(chat);
